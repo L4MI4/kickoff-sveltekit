@@ -1,0 +1,1 @@
+ALTER TABLE "Stock" ALTER COLUMN "id" SET DATA TYPE text;

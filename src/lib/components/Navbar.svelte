@@ -18,9 +18,16 @@
 </script>
 
 <nav>
-  <div class="flex items-center justify-between p-4">
-    <div class="flex-1 px-2">
-      <a href="/" class="btn-ghost btn text-xl font-bold normal-case">Kickoff SvelteKit</a>
+  <div class="flex items-center justify-between p-4 ">
+    <div class="flex-1 px-2 space-x-2">
+      <a href="/" class="btn-ghost btn text-xl font-bold normal-case">Home</a>
+      <!-- add about page -->
+      <a href="/about" class="btn-ghost btn text-xl font-bold normal-case">About</a>
+      <a href ="/gallery" class="btn-ghost btn text-xl font-bold normal-case">Gallery</a>
+      {#if user}
+        <a href="/dashboard/profile" class="btn-ghost btn text-xl font-bold normal-case">Dashboard</a>
+      {/if}
+      
     </div>
 
     <div class="hidden gap-2 lg:inline-flex">
@@ -58,7 +65,7 @@
             >Register</Button
           >
         {:else}
-          <Button href="settings/profile" variant="link" on:click={toggleMenuState} class="text-accent-foreground"
+          <Button href="/settings/profile" variant="link" on:click={toggleMenuState} class="text-accent-foreground"
             >Settings</Button
           >
           <Button form="logout" type="submit" variant="link" on:click={toggleMenuState} class="text-accent-foreground">

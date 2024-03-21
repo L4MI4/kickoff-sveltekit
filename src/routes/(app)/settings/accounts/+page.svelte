@@ -1,6 +1,8 @@
 <script lang="ts">
   // Env Variables
-  import { PUBLIC_AWS_S3_BUCKET_URL } from '$env/static/public';
+  // import { PUBLIC_AWS_S3_BUCKET_URL } from '$env/static/public';
+  import avatarPlaceholder from '$lib/assets/avatar.png';
+
 
   // Utils
   import { superForm } from 'sveltekit-superforms';
@@ -47,7 +49,7 @@
               <Avatar.Root class="z-50 ring-2 ring-border">
                 {#if member.user.avatar}
                   <Avatar.Image
-                    src={`${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${member.user.avatar}`}
+                    src={avatarPlaceholder}
                     alt={member.user.email}
                   />
                 {/if}

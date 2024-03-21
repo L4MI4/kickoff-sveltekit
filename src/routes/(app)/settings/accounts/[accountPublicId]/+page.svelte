@@ -1,7 +1,7 @@
 <script lang="ts">
   // Env Variables
-  import { PUBLIC_AWS_S3_BUCKET_URL } from '$env/static/public';
-
+  // import { PUBLIC_AWS_S3_BUCKET_URL } from '$env/static/public';
+  import avatarPlaceholder from '$lib/assets/avatar.png';
   // Utils
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
@@ -139,7 +139,7 @@
       <li class="flex flex-col items-center justify-center">
         <Avatar.Root class="ring-border ring-2">
           {#if member.user.avatar}
-            <Avatar.Image src={`${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${member.user.avatar}`} alt={member.user.email} />
+            <Avatar.Image src={avatarPlaceholder} alt={member.user.email} />
           {/if}
           <Avatar.Fallback class="uppercase">{member.user.email?.charAt(0)}</Avatar.Fallback>
         </Avatar.Root>

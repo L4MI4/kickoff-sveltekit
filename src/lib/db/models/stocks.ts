@@ -1,0 +1,121 @@
+import { pgTable, text, timestamp, integer,} from 'drizzle-orm/pg-core';
+// import { relations } from 'drizzle-orm';
+import { generateNanoId } from '../../utils/helpers/nanoid';
+import { Company } from './companies';
+
+
+export const Stocks = pgTable('Stock', {
+    id: text('id').primaryKey(),
+    publicId: text('public_id')
+      .notNull()
+      .unique()
+      .$default(() => generateNanoId()),
+    // type: typeEnum('type').notNull().default('team'),
+    medicinename: text('medicine_name').notNull(),
+    // address: text('address').notNull(),
+    quantity: integer('quantity').notNull(),
+    company_name: text('company_name').notNull().references(()=>Company.companyname),
+    priceperunit: integer('price_per_unit').notNull(),
+    expiryDate: timestamp('expiry_date').notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    updatedAt: timestamp('updated_at')
+  });
+// export const StockRelations = relations(Stocks, ({ many }) => ({
+//     company: many(Company),
+//   }));
+// medicinename, quantity, companyname, priceperunit, expiryDate
+// medicinename = [
+// "Interfeterol Alcafvirenz",
+// "Fenoneva",
+// "Sensidosyn",
+// "Agalsiprofen",
+// "Ganizolid",
+// "Phytomab",
+// "Specpirox",
+// "Adinil Alglusirox",
+// "Amphetacept Clasulin",
+// "Cortitonin Hemaroban",
+// "Abobotacept",
+// "Ageferol",
+// "Omexapine",
+// "Diarotec",
+// "Arteranon",
+// "Afretaine",
+// "Suboracin Effitrana",
+// "Amphetavarix Nizofine",
+// "Hydroxycept Acloronate",
+// "Ariramine Pralirabine",
+// "Afinigestrel",
+// "Requibucil",
+// "Phytoletine",
+// "Bonisin",
+// "Olanzaloride",
+// "Tamofoxin",
+// "Inviferon Aquagomar",
+// "Sumagestin Azariva",
+// "Podotane Alkemycin",
+// "Pancrelimus Neurostrel",]4
+// priceperunit = [
+// "666",
+// "877",
+// "030",
+// "745",
+// "545",
+// "087",
+// "125",
+// "558",
+// "237",
+// "341",
+// "569",
+// "834",
+// "890",
+// "945",
+// "696",
+// "143",
+// "194",
+// "975",
+// "659",
+// "055",
+// "321",
+// "060",
+// "290",
+// "095",
+// "959",
+// "926",
+// "900",
+// "028",
+// "344",
+// "572"
+// ]
+// dates = [
+//   "2024-12-31T06:48:11",
+//   "2024-09-25T00:52:42",
+//   "2024-12-01T00:26:27",
+//   "2024-05-11T15:11:29",
+//   "2025-06-04T18:25:46",
+//   "2024-12-18T19:23:10",
+//   "2025-08-31T05:30:19",
+//   "2024-07-10T07:21:22",
+//   "2025-07-31T12:34:46",
+//   "2025-06-13T04:02:35",
+//   "2024-07-13T02:28:54",
+//   "2025-04-14T17:15:06",
+//   "2025-05-27T04:59:23",
+//   "2024-05-14T23:39:22",
+//   "2025-03-04T09:55:12",
+//   "2025-08-09T21:01:05",
+//   "2025-04-25T13:40:05",
+//   "2024-12-12T22:34:33",
+//   "2024-06-19T21:07:49",
+//   "2025-01-03T04:56:21",
+//   "2024-11-22T21:47:34",
+//   "2025-01-31T11:02:12",
+//   "2025-03-12T05:38:29",
+//   "2025-09-20T11:18:21",
+//   "2024-11-06T03:43:28",
+//   "2024-07-05T12:01:17",
+//   "2024-05-25T15:47:35",
+//   "2025-04-11T23:27:30",
+//   "2025-02-07T00:07:45",
+//   "2025-08-26T16:47:44"  
+// ]

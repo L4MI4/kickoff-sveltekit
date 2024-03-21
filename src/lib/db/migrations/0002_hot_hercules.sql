@@ -1,0 +1,1 @@
+ALTER TABLE "Company" ADD CONSTRAINT "Company_license_number_unique" UNIQUE("license_number");

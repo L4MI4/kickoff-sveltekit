@@ -1,0 +1,1 @@
+ALTER TABLE "Stock" DROP CONSTRAINT "Stock_company_name_unique";

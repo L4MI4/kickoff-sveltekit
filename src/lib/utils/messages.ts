@@ -73,3 +73,21 @@ export const accounts = {
       'This action cannot be undone. Are you sure you want to delete this account and remove its data from our servers?'
   }
 };
+
+export const company = {
+  does_not_exist:"Company name does not exist! Please enter a valid name.",
+  exists: "Company name already exists. Please enter a different name.",
+  license_exists: "Company license already exists. Please enter a different license",
+  create:{
+    success:"Company has been successfully added."
+  }
+}
+export const stock = {
+  does_not_exist:"Company name does not exist! Please enter a valid name.",
+  exists: "Medicine stocks with the same company name already exists. Please use edit or add a new stock.",
+  license_exists: "Company license already exists. Please enter a different license",
+  create:{
+    success:"Stocks has been successfully added."
+  }
+}
+

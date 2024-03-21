@@ -10,7 +10,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/client';
 import { setFormFail, setFormError } from '$lib/utils/helpers/forms';
 import { and, eq } from 'drizzle-orm';
-import { sendEmail } from '$lib/utils/mail/mailer';
+// import { sendEmail } from '$lib/utils/mail/mailer';
 import * as m from '$lib/utils/messages';
 
 // Schemas
@@ -30,7 +30,7 @@ export const load = async (event) => {
   if (!event.locals.user) {
     redirect('/login', { type: 'error', message: m.general.unauthorized }, event);
   }
-
+  // console.log("Working?")
   const account = await db.query.Accounts.findFirst({
     where: eq(Accounts.publicId, event.params.accountPublicId),
     with: {
@@ -51,6 +51,7 @@ export const load = async (event) => {
       }
     }
   });
+  // console.log(account)
 
   if (!account) {
     redirect('/', { type: 'error', message: m.accounts.notFound }, event);
@@ -118,13 +119,13 @@ const createAccountInvite: Action = async (event) => {
       const inviteUrl = `${PUBLIC_BASE_URL}/invites?account=${accountId}&token=${invite[0].token}`;
       console.log(inviteUrl);
 
-      try {
-        sendEmail(email, 'Join Our Kickoff SvelteKit Account', 'AccountInvite', {
-          url: inviteUrl
-        });
-      } catch (e: any) {
-        console.log(e);
-      }
+      // try {
+      //   sendEmail(email, 'Join Our Kickoff SvelteKit Account', 'AccountInvite', {
+      //     url: inviteUrl
+      //   });
+      // } catch (e: any) {
+      //   console.log(e);
+      // }
     } catch (error) {
       console.log(error);
 

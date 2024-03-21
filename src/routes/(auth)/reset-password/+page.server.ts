@@ -11,7 +11,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
 import { setFormFail, setFormError } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
-import { sendEmail } from '$lib/utils/mail/mailer';
+// import { sendEmail } from '$lib/utils/mail/mailer';
 import { Argon2id } from 'oslo/password';
 import { generateNanoId } from '$lib/utils/helpers/nanoid';
 import * as m from '$lib/utils/messages';
@@ -90,9 +90,10 @@ const requestPasswordReset: Action = async (event) => {
       .set({ hashedPassword: await tempPassword })
       .where(eq(Users.id, user.id));
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const url = new URL(`${PUBLIC_BASE_URL}/reset-password/${user.id}?token=${token?.key}`);
 
-    await sendEmail(email, 'Reset Password', 'ResetPassword', { url: url });
+    // await sendEmail(email, 'Reset Password', 'ResetPassword', { url: url });
   } catch (error) {
     console.log(error);
     return setFormError(form, m.general.error, {
