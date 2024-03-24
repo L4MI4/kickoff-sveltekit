@@ -1,21 +1,51 @@
 import { superValidate} from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import type { PageServerLoad } from "./$types.js";
-import { accountFormSchema } from "./stock-form.svelte";
+import { accountFormSchema, deleteStockSchema } from "./stock-form.svelte";
 import { fail, type Actions } from "@sveltejs/kit";
 import {redirect} from "sveltekit-flash-message/server";
 import db from "$lib/server/database"
 import {Company} from "$models/companies"
 import {Stocks} from "$models/stocks"
-import { eq ,and} from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { setFormError } from "$lib/utils/helpers/forms";
 import * as m from '$lib/utils/messages';
-import { generateNanoId } from "$lib/utils/helpers/nanoid";
+// import { generateNanoId } from "$lib/utils/helpers/nanoid";
 
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async (event) => {
+  const stockDetails = await db.query.Stocks.findFirst(
+    {
+      where: eq(Stocks.publicId, event.params.stockId)
+    }
+  );
+  // console.log(stockDetails, event.params.stockId)
+  if (!stockDetails) {
+    redirect('/dashboard/Stocks', { type: 'error', message: m.general.error }, event);
+  }
+  const editStocksForm = await superValidate(
+    {
+      name: stockDetails?.medicinename,
+      companyname: stockDetails?.company_name,
+      quantity: stockDetails.quantity,
+      priceperunit: stockDetails?.priceperunit,
+      dob: stockDetails?.expiryDate.toISOString()
+    },
+    zod(accountFormSchema),{
+      id: 'edit-stock-form',
+      errors:false
+    }
+  );
+  const deleteStocksForm = await superValidate(
+    {publicId :stockDetails.publicId},
+    zod(deleteStockSchema),{
+      id: 'delete-stock-form',
+      errors:false
+    }
+  );
 	return {
-		form: await superValidate(zod(accountFormSchema)),
+    editStocksForm,
+    deleteStocksForm,
         metadata: {
             title: "AccountForm",
             description: "Account form schema",
@@ -26,7 +56,7 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	default: async (event) => {
+	editStocks: async (event) => {
 		const form = await superValidate(event, zod(accountFormSchema));
 		if (!form.valid) {
 			console.log(form);
@@ -43,7 +73,7 @@ export const actions: Actions = {
               id: true
             }
           });
-          console.log(existingCompany);
+          // console.log(existingCompany);
       
           if (!existingCompany) {
             return setFormError(
@@ -57,45 +87,71 @@ export const actions: Actions = {
           }
           
             const existingStock = await db.query.Stocks.findFirst({
-                where: and(eq(Stocks.medicinename,name), eq(Stocks.company_name, companyname)),
+                where: eq(Stocks.company_name, companyname),
             })
             if(existingStock){
-                return setFormError(
-                    form,
-                    m.stock.exists,
-                    {
-                      field: 'name',
-                    },
-                    event
-                  );
+              try{await db.transaction(async (trx) => {
+                await trx.update(Stocks)
+                .set({ medicinename: name,company_name: companyname,priceperunit: priceperunit, expiryDate: new Date(dob!), quantity: quantity })
+                .where(eq(Stocks.id, existingStock.id));
+              })
+              }
+              catch(err){
+                console.log(err)
+                  redirect(
+                      {
+                        status: 500,
+                        type: 'error',
+                        message: m.stock.update.failure
+                      },
+                      event
+                    );
+              }
             }
-            const stockId = generateNanoId();
             //create a transaction which adds the company details into database
-            try{await db.transaction(async (trx) => {
-              await trx.insert(Stocks).values({
-                id:stockId,
-                quantity: quantity,
-                company_name: companyname,
-                medicinename: name,
-                expiryDate: new Date(dob!),
-                priceperunit: priceperunit
-              });
-            })
-            }
-            catch(err){
-              console.log(err)
-                redirect(
-                    {
-                      status: 500,
-                      type: 'error',
-                      message: m.general.error
-                    },
-                    event
-                  );
-            }
+            
 
           }
-          redirect('/dashboard/Stocks',{ type: 'success', message: m.stock.create.success }, event);
+          redirect({ type: 'success', message: m.stock.update.success }, event);
+
+	},
+  deleteStocks: async (event) => {
+		const form = await superValidate(event, zod(deleteStockSchema));
+		if (!form.valid) {
+			console.log(form);
+			return fail(400, {
+				form,
+			});
+		}
+        else {
+            const { publicId } = form.data;
+        
+            const existingStock = await db.query.Stocks.findFirst({
+                where: eq(Stocks.publicId, publicId)
+            });
+            if(existingStock){
+              try{await db.transaction(async (trx) => {
+                await trx.delete(Stocks).where(eq(Stocks.id, existingStock.id));
+                });
+              }
+              
+              catch(err){
+                console.log(err)
+                  redirect(
+                      {
+                        status: 500,
+                        type: 'error',
+                        message: m.stock.delete.failure
+                      },
+                      event
+                    );
+              }
+            }
+          }
+            //create a transaction which adds the company details into database
+
+          
+          redirect('/dashboard/Stocks',{ type: 'success', message: m.stock.delete.success }, event);
 
 	},
 };

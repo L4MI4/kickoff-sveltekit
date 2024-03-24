@@ -79,7 +79,16 @@ export const company = {
   exists: "Company name already exists. Please enter a different name.",
   license_exists: "Company license already exists. Please enter a different license",
   create:{
-    success:"Company has been successfully added."
+    success:"Company has been successfully added.",
+    failure:"Something went wrong. Please try again later."
+  },
+  update:{
+    success:"Company has been successfully updated.",
+    failure:"Something went wrong. Please try again later."
+  },
+  delete:{
+    success:"Company has been successfully deleted.",
+    failure:"Something went wrong. Please try again later."
   }
 }
 export const stock = {
@@ -87,7 +96,16 @@ export const stock = {
   exists: "Medicine stocks with the same company name already exists. Please use edit or add a new stock.",
   license_exists: "Company license already exists. Please enter a different license",
   create:{
-    success:"Stocks has been successfully added."
+    success:"Stocks has been successfully added.",
+    failure:"Something went wrong. Please try again later."
+  },
+  update:{
+    success:"Stocks have been successfully updated.",
+    failure:"Something went wrong. Please try again later."
+  },
+  delete:{
+    success:"Company has been successfully deleted.",
+    failure:"Something went wrong. Please try again later."
   }
 }
 

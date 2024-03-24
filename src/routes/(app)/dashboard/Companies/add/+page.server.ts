@@ -91,7 +91,7 @@ export const actions: Actions = {
             }
 
           }
-          redirect({ type: 'success', message: m.company.create.success }, event);
+          redirect('/dashboard/Companies',{ type: 'success', message: m.company.create.success }, event);
 
 	},
 };

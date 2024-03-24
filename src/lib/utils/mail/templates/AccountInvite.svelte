@@ -4,7 +4,7 @@
 </script>
 
 <Html lang="en">
-  <Heading as="h1">You are invited to join our Kickoff SvelteKit account</Heading>
+  <Heading as="h1">You are invited to join our Pharmacy account</Heading>
   <Button href={url}>Click here to join</Button>
   <Hr />
 </Html>

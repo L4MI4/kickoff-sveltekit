@@ -25,7 +25,7 @@
         </DropdownMenu.Item>
       </DropdownMenu.Group>
       <DropdownMenu.Separator />
-      <DropdownMenu.Item>Edit Stock</DropdownMenu.Item>
+      <DropdownMenu.Item href="Stocks/{id}">Edit Stock</DropdownMenu.Item>
       <!-- <DropdownMenu.Item>View payment details</DropdownMenu.Item> -->
     </DropdownMenu.Content>
   </DropdownMenu.Root>

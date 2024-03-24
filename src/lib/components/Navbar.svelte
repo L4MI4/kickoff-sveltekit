@@ -1,15 +1,45 @@
 <script lang="ts">
   // Utils
-  import { slide } from 'svelte/transition';
+  import { crossfade, slide } from 'svelte/transition';
 
   // Components
   import { Button } from '$components/ui/button';
 
   // Icons
   import { HamburgerMenu, Exit, Cross1 } from 'radix-icons-svelte';
+    import { cubicInOut } from 'svelte/easing';
+    import { cn } from '$lib/utils/utils';
+    import { page } from '$app/stores';
+
+    const navbarItems = [
+    // {
+    //   title: 'User Profile',
+    //   href: '/dashboard/profile'
+    // },
+    {
+      title: 'Home',
+      href: '/'
+    },
+    {
+      title: "About",
+      href: '/about'
+    },
+    {
+      title:"Gallery",
+      href: '/gallery'
+    },
+    {
+      title: "Dashboard",
+      href: '/dashboard/profile'
+    },
+  ];
 
   export let user: object | null = null;
   let isMenuOpen = false;
+  const [send, receive] = crossfade({
+    duration: 250,
+    easing: cubicInOut
+  });
 
   const toggleMenuState = (e: Event) => {
     if (e.type === 'focusout' && !isMenuOpen) return;
@@ -18,14 +48,23 @@
 </script>
 
 <nav>
-  <div class="flex items-center justify-between p-4 ">
+  <div class="flex items-center justify-between p-4 shadow-sm">
     <div class="flex-1 px-2 space-x-2">
-      <a href="/" class="btn-ghost btn text-xl font-bold normal-case">Home</a>
+      
+      <a href="/" class="btn-ghost btn text-xl  normal-case">
+        <div class={cn(!($page.url.pathname==='/') && 'hover:underline', 'inline hover:bg-transparent',($page.url.pathname==='/') && ' font-bold')}>Home</div>
+      </a>
       <!-- add about page -->
-      <a href="/about" class="btn-ghost btn text-xl font-bold normal-case">About</a>
-      <a href ="/gallery" class="btn-ghost btn text-xl font-bold normal-case">Gallery</a>
+      <a href="/about" class="btn-ghost btn text-xl normal-case">
+        <div class={cn(!($page.url.pathname==='/about') && 'hover:underline', 'inline hover:bg-transparent',($page.url.pathname==='/about') && ' font-bold')}>About</div>
+      </a>
+      <a href ="/gallery" class="btn-ghost btn text-xl normal-case">
+        <div class={cn(!($page.url.pathname==='/gallery') && 'hover:underline', 'inline hover:bg-transparent',($page.url.pathname==='/gallery')&& ' font-bold')}>Gallery</div>
+      </a>
       {#if user}
-        <a href="/dashboard/profile" class="btn-ghost btn text-xl font-bold normal-case">Dashboard</a>
+        <a href="/dashboard/profile" class="btn-ghost btn text-xl normal-case">
+          <div class={cn(!($page.url.pathname==='/dashboard/profile') && 'hover:underline', 'inline hover:bg-transparent',($page.url.pathname==='/dashboard/profile')&& ' font-bold')}>Dashboard</div>
+          </a>
       {/if}
       
     </div>

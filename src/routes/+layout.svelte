@@ -47,7 +47,7 @@
 
 <Navbar user={data.user} />
 
-<main class="container mx-auto flex flex-1 flex-col p-4 md:px-0 md:py-4">
+<main class="container mx-auto flex flex-1 flex-col p-4 md:px-0 md:py-2">
   <slot />
 
   <div class="fixed bottom-5 right-0">

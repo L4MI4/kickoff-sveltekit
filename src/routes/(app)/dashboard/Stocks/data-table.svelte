@@ -34,7 +34,7 @@
     expiryDate: string,
     updatedAt: string|null
   };
-  console.log(data.stocks)
+  // console.log(data.stocks)
   const data3: Stocks[] = [
     {
         "id": "kjuzuxlhnrpe",
@@ -433,9 +433,9 @@
         return formatted;
       },
       plugins: {
-        sort: {
-          disable: true,
-        },
+        // sort: {
+        //   disable: true,
+        // },
         filter: {
           exclude: true,
         },
@@ -446,7 +446,7 @@
       header: "Expiry Date",
     }),
     table.column({
-      accessor: ({ id }) => id,
+      accessor: ({ publicId }) => publicId,
       header: "",
       cell: ({ value }) => {
         return createRender(DataTableActions, { id: value });

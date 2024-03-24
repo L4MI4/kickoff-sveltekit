@@ -5,6 +5,7 @@ import {Company} from "$models/companies";
 export const load: PageServerLoad = async() => {
     // console.log(await db.select().from(Users))
     const company = await db.select().from(Company)
+    // uncomment and open this page once in case there is no item in database
     // if(company.length==0){
     //     try{
     //         const companies= [

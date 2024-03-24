@@ -3,7 +3,7 @@
 </script>
 
 <Html lang="en">
-  <Heading as="h1">Welcome to Kickoff SvelteKit!</Heading>
+  <Heading as="h1">Welcome to Pharmacy Management!</Heading>
   <Text>We are thrilled to have you</Text>
   <Hr />
 </Html>

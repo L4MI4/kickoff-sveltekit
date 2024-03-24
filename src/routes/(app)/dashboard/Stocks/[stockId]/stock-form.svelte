@@ -19,14 +19,14 @@
 		name: z
 			.string({
 				required_error: "Required.",
-			})
+			}).trim()
 			.min(2, "Name must be at least 2 characters.")
 			.max(30, "Name must not be longer than 30 characters"),
 		// Hack: https://github.com/colinhacks/zod/issues/2280
 		// language: z.enum(languages.map((lang) => lang.value) as [Language, ...Language[]]),
 		companyname: z.string({
 			required_error:"Company name is required."
-		}).max(255,"Company name must not be bigger than 255 characters."),
+		}).max(255,"Company name must not be bigger than 255 characters.").trim(),
 		quantity: z.coerce.number({
 			required_error: "Quantity is required."
 		}).gte(1,"Quantity must be at least 1.")
@@ -43,6 +43,13 @@
 			.optional()
 			.refine((date) => (date === undefined ? false : true), "Please select a valid date."),
 	});
+	export const deleteStockSchema = z.object({
+		publicId: z
+			.string({
+				required_error: "Required.",
+			}).trim()
+	});
+	export type DeleteStockSchema = typeof deleteStockSchema;
 
 	export type AccountFormSchema = typeof accountFormSchema;
 </script>
@@ -59,7 +66,7 @@
 	import * as Command from "$lib/components/ui/command";
 	import { Calendar } from "$lib/components/ui/calendar";
 	import { Input } from "$lib/components/ui/input";
-	import { buttonVariants } from "$lib/components/ui/button";
+	import { Button, buttonVariants } from "$lib/components/ui/button";
 	import { cn } from "$lib/utils/utils";
 	import * as m from "$lib/utils/messages";
 	import { browser } from "$app/environment";
@@ -68,13 +75,29 @@
 		getLocalTimeZone,
 		type DateValue,
 		parseDate,
+		parseAbsolute
+
 	} from "@internationalized/date";
+    import * as AlertDialog from "$components/ui/alert-dialog";
 
-	export let data: SuperValidated<Infer<AccountFormSchema>>;
+	export let data;
+	console.log(new Date(data.editStocksForm.data.dob))
 
-	const form = superForm(data, {
+	const form = superForm(data.editStocksForm, {
 		validators: zodClient(accountFormSchema),
 		multipleSubmits: 'prevent',
+
+		// onResult({ result }) {
+		// 	console.log(result)
+		// 	if (result.type === "success") {
+		// 		toast.success("Success!");
+		// 	}
+		// }
+	});
+	const deleteStockForm = superForm(data.deleteStocksForm, {
+		validators: zodClient(deleteStockSchema),
+		multipleSubmits: 'prevent',
+
 		// onResult({ result }) {
 		// 	console.log(result)
 		// 	if (result.type === "success") {
@@ -83,15 +106,16 @@
 		// }
 	});
 	const { form: formData, enhance, validate } = form;
+	const { form: deleteFormData, enhance:deleteFormEnhance } = deleteStockForm;
 
 	const df = new DateFormatter("en-US", {
 		dateStyle: "long",
 	});
-
-	let dobValue: DateValue | undefined = $formData.dob ? parseDate($formData.dob) : undefined;
+	console.log($formData.dob)
+	let dobValue: DateValue | undefined = $formData.dob ? parseAbsolute($formData.dob,"UTC") : undefined;
 </script>
 
-<form method="POST" class="space-y-8" use:enhance>
+<form method="POST" id="edit-stock-form" class="space-y-8" action="?/editStocks" use:enhance>
 	<Form.Field name="name" {form}>
 		<Form.Control let:attrs>
 			<Form.Label>Name</Form.Label>
@@ -102,7 +126,7 @@
 	<Form.Field name="companyname" {form}>
 		<Form.Control let:attrs>
 			<Form.Label>Company Name</Form.Label>
-			<Input {...attrs} bind:value={$formData.companyname} />
+			<Input readonly {...attrs} bind:value={$formData.companyname} />
 		</Form.Control>
 		<Form.FieldErrors />
 	</Form.Field>
@@ -214,8 +238,34 @@
 		</Popover.Root>
 	</Form.Field> -->
 
-	<Form.Button>Add Stock</Form.Button>
+	<Form.Button>Edit Stock</Form.Button>
 </form>
+<AlertDialog.Root>
+	<AlertDialog.Trigger><Button variant="destructive">Delete Stocks</Button>
+	</AlertDialog.Trigger>
+	<AlertDialog.Content>
+	  <AlertDialog.Header>
+		<AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+		<AlertDialog.Description>
+		  This action cannot be undone. This will permanently delete your account
+		  and remove your data from our servers.
+		</AlertDialog.Description>
+	  </AlertDialog.Header>
+	  <AlertDialog.Footer>
+		<form id="delete-company-form" action="?/deleteStocks" method="POST" use:deleteFormEnhance >
+			<Form.Field form={deleteStockForm} name="publicId" class="space-y-0">
+				<Form.Control let:attrs>
+				  <Form.Label hidden>Account ID</Form.Label>
+				  <Input type="hidden" bind:value={$deleteFormData.publicId} {...attrs} />
+				  <Form.FieldErrors />
+				</Form.Control>
+			  </Form.Field>
+		<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+		<AlertDialog.Action on:click={() => deleteStockForm.submit()}>Continue</AlertDialog.Action>
+	</form>
+	  </AlertDialog.Footer>
+	</AlertDialog.Content>
+  </AlertDialog.Root>
 
 <!-- {#if browser}
 	<SuperDebug data={$formData} />

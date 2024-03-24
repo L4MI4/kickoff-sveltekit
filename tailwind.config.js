@@ -13,6 +13,10 @@ const config = {
       }
     },
     extend: {
+      backgroundImage:{
+        auth: 'url("$lib/assets/auth.jpg")',
+        default:'url("$lib/assets/default.jpg")',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

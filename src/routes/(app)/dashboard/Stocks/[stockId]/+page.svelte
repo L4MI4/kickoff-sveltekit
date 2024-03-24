@@ -3,7 +3,7 @@
 	import type { PageData } from "./$types.js";
     import StockForm from "./stock-form.svelte";
 
-	export let data: PageData;
+	export let data;
 	// console.log(data)
 </script>
 
@@ -15,5 +15,5 @@
 		</p>
 	</div>
 	<Separator />
-	<StockForm data={data.form} />
+	<StockForm data={data} />
 </div>

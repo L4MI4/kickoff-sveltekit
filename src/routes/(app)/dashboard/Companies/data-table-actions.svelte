@@ -25,7 +25,7 @@
         </DropdownMenu.Item>
       </DropdownMenu.Group>
       <DropdownMenu.Separator />
-      <DropdownMenu.Item>Edit Company</DropdownMenu.Item>
+      <DropdownMenu.Item href="Companies/{id}">Edit Company</DropdownMenu.Item>
       <!-- <DropdownMenu.Item>View payment details</DropdownMenu.Item> -->
     </DropdownMenu.Content>
   </DropdownMenu.Root>

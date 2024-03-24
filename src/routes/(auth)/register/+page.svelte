@@ -35,7 +35,7 @@
     <Card.Description>Enter your email below to create your account</Card.Description>
   </Card.Header>
   <Card.Content class="grid gap-4">
-    <div class="grid grid-cols-2 gap-6">
+    <!-- <div class="grid grid-cols-2 gap-6">
       <Button variant="outline">
         <GithubLogo class="mr-2 h-4 w-4" />
         Github
@@ -44,14 +44,14 @@
         <LinkedinLogo class="mr-2 h-4 w-4" />
         LinkedIn
       </Button>
-    </div>
+    </div> -->
     <div class="relative">
       <div class="absolute inset-0 flex items-center">
         <span class="w-full border-t" />
       </div>
-      <div class="relative flex justify-center text-xs uppercase">
+      <!-- <div class="relative flex justify-center text-xs uppercase">
         <span class="bg-card px-2 text-muted-foreground"> Or continue with </span>
-      </div>
+      </div> -->
     </div>
     <form method="POST" action="?/register" use:enhance>
       <Form.Field {form} name="email" let:constraints>

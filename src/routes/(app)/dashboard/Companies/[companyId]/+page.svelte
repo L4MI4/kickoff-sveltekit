@@ -1,19 +1,18 @@
 <script lang="ts">
 	import { Separator } from "$lib/components/ui/separator";
 	import type { PageData } from "./$types.js";
-    import StockForm from "./stock-form.svelte";
+    import CompanyForm from "./company-form.svelte";
 
-	export let data: PageData;
-	// console.log(data)
+	export let data;
 </script>
 
 <div class="space-y-6">
 	<div>
-		<h3 class="text-lg font-medium">Admin-Stock</h3>
+		<h3 class="text-lg font-medium">Admin-Company</h3>
 		<p class="text-sm text-muted-foreground">
-			Add a new Stock.
+			Edit company details.
 		</p>
 	</div>
 	<Separator />
-	<StockForm data={data.form} />
+	<CompanyForm data={data} />
 </div>

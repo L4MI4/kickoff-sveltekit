@@ -22,7 +22,7 @@
   import { Reload, Pencil2 } from 'radix-icons-svelte';
 
   export let data;
-  console.log(data)
+  // console.log(data)
   let isEditMode = false;
 
   const createAccountInviteForm = superForm(data.createAccountInviteForm, {

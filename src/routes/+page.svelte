@@ -2,7 +2,7 @@
   export let data;
 </script>
 
-<div class="grid flex-1 content-center justify-center text-center">
+<div class="grid flex-1 content-center justify-center text-center bg-default bg-cover">
   <h1 class="my-2 text-3xl font-bold md:text-6xl">WELCOME</h1>
 
   {#if data.user}

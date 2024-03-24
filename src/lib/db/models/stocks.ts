@@ -14,7 +14,7 @@ export const Stocks = pgTable('Stock', {
     medicinename: text('medicine_name').notNull(),
     // address: text('address').notNull(),
     quantity: integer('quantity').notNull(),
-    company_name: text('company_name').notNull().references(()=>Company.companyname),
+    company_name: text('company_name').notNull().references(()=>Company.companyname, { onDelete: 'cascade',onUpdate: 'cascade' }),
     priceperunit: integer('price_per_unit').notNull(),
     expiryDate: timestamp('expiry_date').notNull(),
     createdAt: timestamp('created_at').notNull().defaultNow(),

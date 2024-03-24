@@ -12,7 +12,7 @@
   import * as Card from '$components/ui/card';
 
   // Icons
-  import { Reload, GithubLogo, LinkedinLogo } from 'radix-icons-svelte';
+  import { Reload } from 'radix-icons-svelte';
 
   export let data;
 
@@ -79,12 +79,12 @@
       <div class="absolute inset-0 flex items-center">
         <span class="w-full border-t" />
       </div>
-      <div class="relative flex justify-center text-xs uppercase">
+      <!-- <div class="relative flex justify-center text-xs uppercase">
         <span class="bg-card px-2 text-muted-foreground"> Or continue with </span>
-      </div>
+      </div> -->
     </div>
 
-    <div class="grid grid-cols-2 gap-6">
+    <!-- <div class="grid grid-cols-2 gap-6">
       <Button variant="outline">
         <GithubLogo class="mr-2 h-4 w-4" />
         Github
@@ -93,11 +93,11 @@
         <LinkedinLogo class="mr-2 h-4 w-4" />
         LinkedIn
       </Button>
-    </div>
+    </div> -->
   </Card.Content>
   <Card.Footer>
     <div class="mt-2 flex w-full justify-between">
-      <a href="/reset-password" class="text-xs">Forgot your password?</a>
+      <!-- <a href="/reset-password" class="text-xs">Forgot your password?</a> -->
       <a href="/register" class="text-xs">Doesn't have an account yet?</a>
     </div>
   </Card.Footer>

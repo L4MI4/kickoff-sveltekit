@@ -411,7 +411,7 @@
       },
     }),
     table.column({
-      accessor: ({ id }) => id,
+      accessor: ({ publicId }) => publicId,
       header: "",
       cell: ({ value }) => {
         return createRender(DataTableActions, { id: value });
