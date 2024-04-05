@@ -12,7 +12,7 @@
   import * as Card from '$components/ui/card';
 
   // Icons
-  import { Reload } from 'radix-icons-svelte';
+  import { Reload } from 'svelte-radix';
 
   export let data;
 
